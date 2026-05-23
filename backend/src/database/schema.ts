@@ -15,6 +15,8 @@ export const collectionEnum = pgEnum("collection", [
   "relationship",
 ]);
 
+export const roleEnum = pgEnum("role", ["user", "moderator", "admin"]);
+
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
 
@@ -41,6 +43,8 @@ export const users = pgTable("users", {
   name: text("name").notNull(),
 
   email: text("email").notNull(),
+
+  role: roleEnum("role").default("user").notNull(),
 
   googleId: text("google_id"),
 
