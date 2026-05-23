@@ -8,13 +8,16 @@ interface LoginProps {
   buttonRef: React.RefObject<SVGSVGElement | null>;
 }
 
+interface LogoutProps {
+  logoutModal: boolean;
+  setLogoutModal: React.Dispatch<React.SetStateAction<boolean>>;
+  buttonRef: React.RefObject<SVGSVGElement | null>;
+}
+
 const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
   const [islogin, setIslogin] = useState(true);
   const modalRef = useRef<HTMLFormElement>(null);
   const login = useUserStore((state) => state.login);
-  const user = useUserStore((state) => state.user);
-
-  console.log(user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,6 +85,7 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
         name: data.user.name,
         email: data.user.email,
         token: data.token,
+        role: data.user.role,
       });
 
       closeModal();
@@ -146,6 +150,55 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
         </span>
       </div>
     </form>
+  );
+};
+
+export const Logout = ({
+  logoutModal,
+  setLogoutModal,
+  buttonRef,
+}: LogoutProps) => {
+  const logout = useUserStore((state) => state.logout);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeModal = () => {
+    setLogoutModal(false);
+  };
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (
+        buttonRef &&
+        !buttonRef.current?.contains(e.target as Node) &&
+        modalRef.current &&
+        !modalRef.current.contains(e.target as Node)
+      ) {
+        closeModal();
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+    return () => {
+      window.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={modalRef}
+      style={{ display: logoutModal ? "flex" : "none" }}
+      className="absolute right-0 top-15 z-10 bg-white p-4 rounded-[10px]  flex-col items-center w-80 [&>input]:outline-none
+  [&>input]:border [&>input]:border-zinc-300 [&>input]:rounded-lg [&>input]:mt-3 [&>input]:p-2 [&>input]:w-full shadow-lg select-none"
+    >
+      <button
+        className="border p-2 px-12 rounded-2xl cursor-pointer duration-150 transition-all hover:text-red-500 hover:border-red-500"
+        onClick={() => {
+          logout();
+          closeModal();
+        }}
+      >
+        Logout
+      </button>
+    </div>
   );
 };
 
