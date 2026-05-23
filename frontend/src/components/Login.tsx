@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Loading from "./loading";
+import Loading from "./Loading";
+import { useUserStore } from "../store/useUserStore";
 
 interface LoginProps {
   loginModal: boolean;
@@ -10,6 +11,10 @@ interface LoginProps {
 const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
   const [islogin, setIslogin] = useState(true);
   const modalRef = useRef<HTMLFormElement>(null);
+  const login = useUserStore((state) => state.login);
+  const user = useUserStore((state) => state.user);
+
+  console.log(user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,7 +78,12 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
       }
       const data = await res.json();
 
-      console.log(data);
+      login({
+        name: data.user.name,
+        email: data.user.email,
+        token: data.token,
+      });
+
       closeModal();
     } catch (error) {
       console.error(error);
