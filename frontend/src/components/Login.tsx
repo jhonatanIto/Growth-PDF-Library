@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Loading from "./Loading";
 import { useUserStore } from "../store/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   loginModal: boolean;
@@ -18,6 +19,7 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
   const [islogin, setIslogin] = useState(true);
   const modalRef = useRef<HTMLFormElement>(null);
   const login = useUserStore((state) => state.login);
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -86,7 +88,12 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
         email: data.user.email,
         token: data.token,
         role: data.user.role,
+        picture: data.user.picture,
       });
+
+      if (data.user.role !== "user") {
+        navigate("/admin");
+      }
 
       closeModal();
     } catch (error) {

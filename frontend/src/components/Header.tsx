@@ -2,6 +2,7 @@ import { Handbag, Search, UserRound } from "lucide-react";
 import Login, { Logout } from "./Login";
 import { useRef, useState } from "react";
 import { useUserStore } from "../store/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState(false);
@@ -10,12 +11,18 @@ const Header = () => {
   const buttonRef = useRef<SVGSVGElement>(null);
 
   const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
 
   return (
     <div className=" max-w-380 w-full ">
       <div className="grid grid-cols-3 items-center border-b1 p-5">
         <Search className="cursor-pointer" />
-        <span className="font-bold text-[20px] text-center cursor-pointer">
+        <span
+          className="font-bold text-[20px] text-center cursor-pointer w-fit justify-self-center"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           Growth PDF Library
         </span>
         <div className="flex justify-end gap-6 relative">
@@ -44,10 +51,36 @@ const Header = () => {
         </div>
       </div>
       <nav className="flex justify-center gap-6 [&>div]:cursor-pointer p-2 select-none">
-        <div>Home</div>
-        <div>Catallog</div>
-        <div>Contact</div>
-        {user && user.role !== "user" && <div>Admin</div>}
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Home
+        </div>
+        <div
+          onClick={() => {
+            navigate("/catallog");
+          }}
+        >
+          Catallog
+        </div>
+        <div
+          onClick={() => {
+            navigate("/contact");
+          }}
+        >
+          Contact
+        </div>
+        {user && user.role !== "user" && (
+          <div
+            onClick={() => {
+              navigate("/admin");
+            }}
+          >
+            Admin
+          </div>
+        )}
       </nav>
     </div>
   );

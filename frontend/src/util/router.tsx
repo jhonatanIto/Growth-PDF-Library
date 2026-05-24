@@ -3,6 +3,7 @@ import Dashboard from "../pages/Dashboard";
 import Catallog from "../pages/Catallog";
 import Contact from "../pages/Contact";
 import App from "../App";
+import Admin from "../pages/admin-page/Admin";
 
 export const router = createBrowserRouter([
   {
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
         element: <Contact />,
       },
     ],
+  },
+  {
+    path: "admin",
+    element: <Admin />,
   },
 ]);

@@ -8,6 +8,7 @@ interface User {
   email: string;
   token: string;
   role: Role;
+  picture: string;
 }
 
 interface UserStore {

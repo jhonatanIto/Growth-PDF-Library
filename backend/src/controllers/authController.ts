@@ -99,6 +99,7 @@ export const login = async (req: Request, res: Response) => {
         name: user?.name,
         email: user?.email,
         role: user?.role,
+        picture: user?.picture,
       },
     });
   } catch (error) {
