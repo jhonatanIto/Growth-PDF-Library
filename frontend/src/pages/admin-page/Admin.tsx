@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import { useUserStore } from "../../store/useUserStore";
 import Sidebar from "./components/Sidebar";
 import SidebarItem from "./components/Sidebar-item";
+import { Outlet } from "react-router-dom";
 
 const Admin = () => {
   const user = useUserStore((state) => state.user);
@@ -62,6 +63,10 @@ const Admin = () => {
           alert={false}
         />
       </Sidebar>
+
+      <section className="flex-1 p-6 font-sans">
+        <Outlet />
+      </section>
     </main>
   );
 };
