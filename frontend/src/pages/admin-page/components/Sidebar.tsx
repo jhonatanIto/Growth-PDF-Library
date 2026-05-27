@@ -58,7 +58,7 @@ const Sidebar = ({ children }: SidebarProps) => {
           )}
           <div
             className={`flex justify-between items-center  overflow-hidden transition-all 
-            ${expanded ? "w-52 ml-3" : "w-0"}`}
+            ${expanded ? "w-52 ml-3" : "w-0"} text-gray-600`}
           >
             <div className="leading-4 font-sans ">
               <h4 className="font-semibold">{user?.name}</h4>

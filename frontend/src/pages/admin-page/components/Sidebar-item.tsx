@@ -1,21 +1,44 @@
 import type { LucideIcon } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "./Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarItemProps {
   icon: LucideIcon;
   text: string;
-  active: boolean;
   alert: boolean;
 }
 
-const SidebarItem = ({ icon: Icon, text, active, alert }: SidebarItemProps) => {
+const SidebarItem = ({ icon: Icon, text, alert }: SidebarItemProps) => {
   const { expanded } = useContext(SidebarContext);
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
+  const [active, setActive] = useState(false);
+
+  console.log(location);
+
+  useEffect(() => {
+    const loc = location.toLowerCase();
+    const tex = text.toLowerCase();
+
+    if (tex === "dashboard") {
+      setActive(loc === "/admin" || loc === "/admin/");
+    } else {
+      setActive(loc.startsWith(`/admin/${tex}`));
+    }
+  }, [location, text]);
 
   return (
     <li
-      className={`relative flex items-center py-2 px-5 my-1 font-medium rounded-md cursor-pointer transition-colors 
+      className={`relative flex items-center py-2 px-5 my-1 font-medium rounded-md cursor-pointer transition-colors select-none
        group ${active ? "bg-linear-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}`}
+      onClick={() => {
+        if (text !== "Dashboard") {
+          navigate(`/admin/${text}`);
+        } else {
+          navigate("/admin");
+        }
+      }}
     >
       <Icon />
       <span

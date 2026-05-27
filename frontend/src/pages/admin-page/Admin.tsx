@@ -31,37 +31,12 @@ const Admin = () => {
   return (
     <main className="flex">
       <Sidebar>
-        <SidebarItem
-          icon={LayoutDashboard}
-          text="Dashboard"
-          active={false}
-          alert={false}
-        />
-        <SidebarItem
-          icon={BookOpen}
-          text="Products"
-          active={false}
-          alert={false}
-        />
-        <SidebarItem
-          icon={BarChart3}
-          text="Statistcs"
-          active={false}
-          alert={false}
-        />
-        <SidebarItem
-          icon={UsersRound}
-          text="Clients"
-          active={false}
-          alert={false}
-        />
-        <SidebarItem icon={Package} text="Orders" active={false} alert={true} />
-        <SidebarItem
-          icon={Settings}
-          text="Settings"
-          active={false}
-          alert={false}
-        />
+        <SidebarItem icon={LayoutDashboard} text="Dashboard" alert={false} />
+        <SidebarItem icon={BookOpen} text="Products" alert={false} />
+        <SidebarItem icon={BarChart3} text="Statistics" alert={false} />
+        <SidebarItem icon={UsersRound} text="Clients" alert={false} />
+        <SidebarItem icon={Package} text="Orders" alert={true} />
+        <SidebarItem icon={Settings} text="Settings" alert={false} />
       </Sidebar>
 
       <section className="flex-1 p-6 font-sans">
