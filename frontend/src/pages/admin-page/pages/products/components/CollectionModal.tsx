@@ -1,9 +1,11 @@
 import { Plus, Search } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface Props {
   colModal: boolean;
   setColModal: React.Dispatch<React.SetStateAction<boolean>>;
+  selected: string[];
+  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const collections = [
@@ -14,8 +16,12 @@ const collections = [
   "Relationship",
 ];
 
-const CollectionModal = ({ colModal, setColModal }: Props) => {
-  const [selected, setSelected] = useState<string[]>([]);
+const CollectionModal = ({
+  colModal,
+  setColModal,
+  setSelected,
+  selected,
+}: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const toggleCollection = (collection: string) => {

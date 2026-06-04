@@ -1,4 +1,4 @@
-import { ChevronsUpDown, CirclePlus } from "lucide-react";
+import { ChevronsUpDown, CirclePlus, Divide, Upload } from "lucide-react";
 import CollectionModal from "./components/CollectionModal";
 import { useState } from "react";
 import StatusModal from "./components/StatusModal";
@@ -7,6 +7,10 @@ const Product_Info = () => {
   const [colModal, setColModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
   const [currentStatus, setCurrentStatus] = useState("Active");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [selected, setSelected] = useState<string[]>([]);
+  console.log(selected);
 
   return (
     <div>
@@ -31,24 +35,51 @@ const Product_Info = () => {
 
             <div className="mt-5">
               <h1>Media</h1>
-              <input
-                type="file"
-                className="w-full border mt-1 border-zinc-300 h-30 rounded-[10px] cursor-pointer hover:bg-gray-100/30"
-              />
+
+              <label
+                htmlFor="media-upload"
+                className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-zinc-300 
+                rounded-xl cursor-pointer transition-all hover:border-zinc-500 hover:bg-zinc-100"
+              >
+                <Upload size={28} className="text-zinc-500 mb-2" />
+                <span className="font-medium text-zinc-800">
+                  Upload New File
+                </span>
+                <span className="text-sm text-zinc-500 mt-1">
+                  PNG, JPG, WEBP
+                </span>
+              </label>
+              <input id="media-upload" type="file" className="hidden" />
             </div>
 
             <div className="mt-5 relative">
               <h1>Collections</h1>
               <button
-                className="cursor-pointer border rounded-2xl w-70 border-zinc-400 p-1 mt-1"
+                className="cursor-pointer border rounded-2xl w-100 border-zinc-400 p-1 mt-1"
                 onClick={() => setColModal(true)}
               >
-                <div className="flex items-center bg-gray-200 w-fit p-1 rounded-2xl pr-4">
-                  <CirclePlus size={18} />{" "}
-                  <span className="ml-2 text-[14px] ">Add collections</span>
-                </div>{" "}
+                {selected.length < 1 && (
+                  <div className="flex items-center bg-gray-200 w-fit px-1 rounded-2xl pr-4">
+                    <CirclePlus size={18} />{" "}
+                    <span className="ml-2 text-[14px] ">Add collections</span>
+                  </div>
+                )}
+                {selected.length > 0 && (
+                  <div className="flex">
+                    {selected.map((s) => (
+                      <span className="ml-1 text-[14px] bg-gray-200 w-fit rounded-2xl px-2  ">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </button>
-              <CollectionModal colModal={colModal} setColModal={setColModal} />
+              <CollectionModal
+                colModal={colModal}
+                setColModal={setColModal}
+                selected={selected}
+                setSelected={setSelected}
+              />
             </div>
           </div>
           <div className="p-4 mt-5 bg-white rounded-2xl w-170 text-zinc-900">
