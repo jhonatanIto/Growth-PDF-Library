@@ -1,4 +1,4 @@
-import { ChevronsUpDown, CirclePlus, Divide, Upload } from "lucide-react";
+import { ChevronsUpDown, CirclePlus, Upload } from "lucide-react";
 import CollectionModal from "./components/CollectionModal";
 import { useState } from "react";
 import StatusModal from "./components/StatusModal";
@@ -10,7 +10,7 @@ const Product_Info = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
-  console.log(selected);
+  const [file, setFile] = useState<File | null>(null);
 
   return (
     <div>
@@ -22,6 +22,8 @@ const Product_Info = () => {
             <div>
               <h1>Title</h1>
               <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 type="text"
                 placeholder="Book title..."
                 className="border mt-1 border-zinc-300 p-1 w-full rounded-[10px]"
@@ -30,7 +32,11 @@ const Product_Info = () => {
 
             <div className="mt-5">
               <h1>Description</h1>
-              <textarea className="w-full mt-1 border border-zinc-300 h-35 rounded-[10px]"></textarea>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full mt-1 border border-zinc-300 h-35 rounded-[10px]"
+              ></textarea>
             </div>
 
             <div className="mt-5">
@@ -49,13 +55,23 @@ const Product_Info = () => {
                   PNG, JPG, WEBP
                 </span>
               </label>
-              <input id="media-upload" type="file" className="hidden" />
+              <input
+                onChange={(e) => {
+                  const currFile = e.target.files?.[0];
+                  if (currFile) {
+                    setFile(currFile);
+                  }
+                }}
+                id="media-upload"
+                type="file"
+                className="hidden"
+              />
             </div>
 
             <div className="mt-5 relative">
               <h1>Collections</h1>
               <button
-                className="cursor-pointer border rounded-2xl w-100 border-zinc-400 p-1 mt-1"
+                className="cursor-pointer border rounded-2xl min-w-70 max-w-120 border-zinc-400 p-1 mt-1"
                 onClick={() => setColModal(true)}
               >
                 {selected.length < 1 && (
@@ -116,6 +132,12 @@ const Product_Info = () => {
           </div>
         </div>
       </div>
+      <button
+        className="bg-zinc-700 text-white px-6 rounded-2xl text-[17px] mt-5 ml-1
+       cursor-pointer hover:bg-zinc-500 transition-all duration-150"
+      >
+        save
+      </button>
     </div>
   );
 };

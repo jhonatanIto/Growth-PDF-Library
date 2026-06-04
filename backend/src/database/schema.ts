@@ -24,13 +24,15 @@ export const products = pgTable("products", {
 
   description: text("description").notNull(),
 
-  image_url: text("image_url").notNull(),
+  cover_url: text("cover_url").notNull(),
+
+  pdf_url: text("pdf_url").notNull(),
 
   price: integer("price").notNull(),
 
   collection: collectionEnum("collection").notNull(),
 
-  active: boolean("active").default(true).notNull(),
+  status: text("status").default("Active").notNull(),
 
   created_at: timestamp("created_at", { withTimezone: true })
     .defaultNow()
