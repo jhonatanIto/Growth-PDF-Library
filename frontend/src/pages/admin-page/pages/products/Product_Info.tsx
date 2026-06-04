@@ -1,6 +1,13 @@
 import { ChevronsUpDown, CirclePlus } from "lucide-react";
+import CollectionModal from "./components/CollectionModal";
+import { useState } from "react";
+import StatusModal from "./components/StatusModal";
 
 const Product_Info = () => {
+  const [colModal, setColModal] = useState(false);
+  const [statusModal, setStatusModal] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState("Active");
+
   return (
     <div>
       <h1 className="text-2xl">Add Product</h1>
@@ -26,16 +33,22 @@ const Product_Info = () => {
               <h1>Media</h1>
               <input
                 type="file"
-                className="w-full border mt-1 border-zinc-300 h-30 rounded-[10px]"
+                className="w-full border mt-1 border-zinc-300 h-30 rounded-[10px] cursor-pointer hover:bg-gray-100/30"
               />
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 relative">
               <h1>Collections</h1>
-              <button className="cursor-pointer flex border rounded-2xl w-70 border-zinc-400  p-2 mt-1">
-                {" "}
-                <CirclePlus /> <span className="ml-2">Add collections</span>
+              <button
+                className="cursor-pointer border rounded-2xl w-70 border-zinc-400 p-1 mt-1"
+                onClick={() => setColModal(true)}
+              >
+                <div className="flex items-center bg-gray-200 w-fit p-1 rounded-2xl pr-4">
+                  <CirclePlus size={18} />{" "}
+                  <span className="ml-2 text-[14px] ">Add collections</span>
+                </div>{" "}
               </button>
+              <CollectionModal colModal={colModal} setColModal={setColModal} />
             </div>
           </div>
           <div className="p-4 mt-5 bg-white rounded-2xl w-170 text-zinc-900">
@@ -56,11 +69,18 @@ const Product_Info = () => {
           <div>
             <h1>Status</h1>
             <button
-              className="border border-zinc-300 mt-1 rounded-[10px] cursor-pointer w-full flex items-center p-1 px-2
-            flec justify-between "
+              className="border border-zinc-300 mt-1 rounded-[10px] cursor-pointer w-full flex items-center 
+            flec justify-between relative px-2 p-0.5"
+              onClick={() => setStatusModal(true)}
             >
-              Active
+              {currentStatus}
               <ChevronsUpDown size={20} />
+              <StatusModal
+                statusModal={statusModal}
+                setStatusModal={setStatusModal}
+                currentStatus={currentStatus}
+                setCurrentStatus={setCurrentStatus}
+              />
             </button>
           </div>
         </div>
