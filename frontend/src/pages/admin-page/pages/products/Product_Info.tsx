@@ -2,6 +2,9 @@ import { ChevronsUpDown, CirclePlus, Upload } from "lucide-react";
 import CollectionModal from "./components/CollectionModal";
 import { useState } from "react";
 import StatusModal from "./components/StatusModal";
+import { useUserStore } from "../../../../store/useUserStore";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Product_Info = () => {
   const [colModal, setColModal] = useState(false);
@@ -11,6 +14,32 @@ const Product_Info = () => {
   const [description, setDescription] = useState("");
   const [selected, setSelected] = useState<string[]>([]);
   const [file, setFile] = useState<File | null>(null);
+  const [price, setPrice] = useState("");
+
+  const token = useUserStore((state) => state.token);
+
+  const handleSave = async () => {
+    if (!file) {
+      alert("Please upload a PDF");
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("status", currentStatus);
+
+    await fetch(`${apiUrl}/api/products`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+  };
 
   return (
     <div>
@@ -102,6 +131,7 @@ const Product_Info = () => {
             <h1>Price</h1>
             <div className="relative mt-1">
               <input
+                onChange={(e) => setPrice(e.target.value)}
                 type="number"
                 placeholder="0.00"
                 className="border text-zinc-500 border-zinc-300 p-1 w-full rounded-[10px] pl-7"
@@ -135,6 +165,7 @@ const Product_Info = () => {
       <button
         className="bg-zinc-700 text-white px-6 rounded-2xl text-[17px] mt-5 ml-1
        cursor-pointer hover:bg-zinc-500 transition-all duration-150"
+        onClick={handleSave}
       >
         save
       </button>

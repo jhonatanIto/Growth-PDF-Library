@@ -12,7 +12,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Bem vindo ao meu servidor nenem");
 });
-app.use("/auth", authRoute);
+app.use("api/auth", authRoute);
 
 app.listen(port, () => {
   console.log("SERVIDOR RODANDO NA PORTA", port);

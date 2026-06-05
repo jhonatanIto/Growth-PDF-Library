@@ -3,6 +3,8 @@ import Loading from "./Loading";
 import { useUserStore } from "../store/useUserStore";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 interface LoginProps {
   loginModal: boolean;
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,7 +71,7 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
     }
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:3000/auth/${url}`, {
+      const res = await fetch(`${apiUrl}/api/auth/${url}`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -83,13 +85,15 @@ const Login = ({ loginModal, setLoginModal, buttonRef }: LoginProps) => {
       }
       const data = await res.json();
 
-      login({
-        name: data.user.name,
-        email: data.user.email,
-        token: data.token,
-        role: data.user.role,
-        picture: data.user.picture,
-      });
+      login(
+        {
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          picture: data.user.picture,
+        },
+        data.token,
+      );
 
       if (data.user.role !== "user") {
         navigate("/admin");
